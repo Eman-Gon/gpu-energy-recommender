@@ -22,6 +22,49 @@ This project develops a machine learning recommendation system that suggests opt
 
 ---
 
+## Quick Start
+
+### Installation
+
+```bash
+# Clone repository
+git clone [your-repo-url]
+cd gpu-energy-recommender
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Running the Analysis
+
+```bash
+# Navigate to EDA folder
+cd eda
+
+# Generate datasets
+python data_collection.py
+
+# Run main exploratory data analysis
+python eda.py
+
+# Run target variable analysis
+python Analyze_target_variable.py
+
+# Generate additional visualizations
+python additional_visualizations.py
+```
+
+### Results
+
+All analysis results are in the `eda/` folder:
+- `eda_summary.md` - Complete 7-section analysis report
+- `*.png` - 12+ professional visualizations (300 DPI)
+- `*.csv` - Generated datasets (raw + enhanced)
+
+For detailed findings, see [eda/eda_summary.md](eda/eda_summary.md)
+
+---
+
 ## Key Findings
 
 <p align="center">
@@ -56,9 +99,54 @@ This project develops a machine learning recommendation system that suggests opt
 
 ---
 
-## Quick Start
+## Project Structure
 
-### Prerequisites
-```bash
-python >= 3.10
-pandas, numpy, matplotlib, seaborn, scikit-learn
+```
+gpu-energy-recommender/
+├── README.md                           # This file
+├── requirements.txt                    # Python dependencies
+├── eda/                               # All analysis files
+│   ├── eda.py                         # Main EDA script
+│   ├── eda_summary.md                 # Complete analysis report
+│   ├── data_collection.py             # Dataset generation
+│   ├── Analyze_target_variable.py     # Target analysis
+│   ├── additional_visualizations.py   # Extra plots
+│   ├── eda.ipynb                      # Jupyter notebook version
+│   ├── *.csv                          # Generated datasets
+│   └── *.png                          # Visualizations (12+ files)
+```
+
+---
+
+## Technologies Used
+
+- **Python 3.10+**
+- **pandas** - Data manipulation
+- **numpy** - Numerical computing
+- **matplotlib** - Visualizations
+- **seaborn** - Statistical graphics
+- **scikit-learn** - Feature engineering
+
+---
+
+## Next Steps
+
+1. **Model Development** - Train Random Forest, XGBoost, Logistic Regression classifiers
+2. **Evaluation** - Target >80% precision, >75% recall
+3. **Recommendation System** - Build real-time decision support
+4. **Business Impact** - Deploy for 40-50% energy cost reduction
+
+---
+
+## Course Information
+
+**Course:** CSC-466 Machine Learning  
+**Institution:** California Polytechnic State University, San Luis Obispo  
+**Quarter:** Fall 2025  
+**Assignment:** Final Project Milestone - Data Collection & EDA
+
+---
+
+## License
+
+This project is for educational purposes as part of CSC-466 coursework.
