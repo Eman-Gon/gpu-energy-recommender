@@ -1,12 +1,3 @@
-# GPU Energy-Aware Workload Recommendation System
-
-**A data-driven machine learning system for optimizing GPU workload scheduling based on real-time electricity prices.**
-
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
-[![Status](https://img.shields.io/badge/Status-EDA_Complete-success.svg)]()
-
----
-
 ## Project Overview
 
 This project develops a machine learning recommendation system that suggests optimal GPU workload scheduling by analyzing ERCOT Texas electricity prices and GPU cluster utilization patterns. 
@@ -99,35 +90,6 @@ For detailed findings, see [eda/eda_summary.md](eda/eda_summary.md)
 
 ---
 
-## Project Structure
-
-```
-gpu-energy-recommender/
-├── README.md                           # This file
-├── requirements.txt                    # Python dependencies
-├── eda/                               # All analysis files
-│   ├── eda.py                         # Main EDA script
-│   ├── eda_summary.md                 # Complete analysis report
-│   ├── data_collection.py             # Dataset generation
-│   ├── Analyze_target_variable.py     # Target analysis
-│   ├── additional_visualizations.py   # Extra plots
-│   ├── eda.ipynb                      # Jupyter notebook version
-│   ├── *.csv                          # Generated datasets
-│   └── *.png                          # Visualizations (12+ files)
-```
-
----
-
-## Technologies Used
-
-- **Python 3.10+**
-- **pandas** - Data manipulation
-- **numpy** - Numerical computing
-- **matplotlib** - Visualizations
-- **seaborn** - Statistical graphics
-- **scikit-learn** - Feature engineering
-
----
 
 ## Next Steps
 
@@ -135,18 +97,3 @@ gpu-energy-recommender/
 2. **Evaluation** - Target >80% precision, >75% recall
 3. **Recommendation System** - Build real-time decision support
 4. **Business Impact** - Deploy for 40-50% energy cost reduction
-
----
-
-## Course Information
-
-**Course:** CSC-466 Machine Learning  
-**Institution:** California Polytechnic State University, San Luis Obispo  
-**Quarter:** Fall 2025  
-**Assignment:** Final Project Milestone - Data Collection & EDA
-
----
-
-## License
-
-This project is for educational purposes as part of CSC-466 coursework.
