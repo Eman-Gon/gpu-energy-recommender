@@ -91,17 +91,6 @@ For detailed findings, see [eda/eda_summary.md](eda/eda_summary.md)
 ---
 
 
-## Technologies Used
-
-- **Python 3.10+**
-- **pandas** - Data manipulation
-- **numpy** - Numerical computing
-- **matplotlib** - Visualizations
-- **seaborn** - Statistical graphics
-- **scikit-learn** - Feature engineering
-
----
-
 ## Next Steps
 
 1. **Model Development** - Train Random Forest, XGBoost, Logistic Regression classifiers
