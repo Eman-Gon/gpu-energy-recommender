@@ -3,67 +3,61 @@
 
 ---
 
-## Executive Summary
+## Summary
 
-This analysis combines 90 days of Texas electricity prices with GPU data center usage patterns. We found that scheduling GPU jobs during off-peak hours (midnight-8 AM) costs 69% less than peak hours. The data shows clear patterns that can be used to build a machine learning classifier.
-
----
-
-## What is This Dataset and Why Did We Choose It?
-
-### Dataset Overview
-
-The dataset combines electricity pricing data from the Texas power grid with GPU data center usage patterns. The electricity prices come from the ERCOT system, covering hourly prices from the HB_NORTH settlement point over 90 days from August 14 to November 12, 2025. Prices range from $15 to $772 per megawatt-hour, showing significant volatility.
-
-The GPU component simulates a 100-GPU data center, tracking power consumption, active jobs, and utilization levels. This simulation is based on real NVIDIA A100 GPU specifications, which consume approximately 300 watts per GPU. The dataset contains 2,161 hourly observations with 20 features (variables) and zero missing data. The target variable has a perfect 50/50 split between efficient and inefficient hours.
-
-### Why This Matters
-
-GPU data centers consume massive amounts of electricity. Many GPU tasks like training AI models or running simulations don't need to happen immediately and can wait for cheaper electricity times. This project builds a system to predict when to run these jobs to save money. By analyzing the relationship between electricity prices and optimal scheduling times, we can develop a machine learning classifier that recommends the best times to execute flexible workloads.
+This analysis combines 90 days of Texas electricity prices with GPU data center usage patterns. I found that scheduling GPU jobs during off-peak hours (midnight-8 AM) costs 69% less than peak hours. The data shows clear patterns for building a machine learning classifier.
 
 ---
 
-## What Did We Learn?
+## What is This Dataset and Why Did I Choose It?
 
-### Huge Cost Difference Between Time Windows
+The dataset combines electricity pricing from the Texas power grid (ERCOT system, HB_NORTH settlement point) with GPU data center usage patterns. It covers 90 days from August 14 to November 12, 2025, with prices ranging from $15 to $772 per megawatt-hour. The GPU component simulates a 100-GPU data center based on NVIDIA A100 specifications (300 watts per GPU), tracking power consumption, active jobs, and utilization. The dataset contains 2,161 hourly observations with 20 features and zero missing data, with a perfect 50/50 split between efficient and inefficient hours.
+
+GPU data centers consume massive amounts of electricity. Many tasks like AI model training don't need to happen immediately and can wait for cheaper electricity times. This project builds a system to predict when to run jobs to save money by analyzing the relationship between electricity prices and optimal scheduling times.
+
+---
+
+## What Did I Learn?
+
+### Cost Difference Between Time Windows
 
 <p align="center">
   <img src="target_variable_analysis.png" width="800" alt="Cost Comparison">
 </p>
 
-The analysis reveals a dramatic cost differential between optimal and suboptimal scheduling windows. During cheap hours, the average electricity price is $37.54 per MWh compared to $78.66 per MWh during expensive hours. This translates to an operating cost of $0.46 per hour versus $1.51 per hour, representing a 69% cost reduction. When measuring work completed per dollar spent, efficient hours achieve 271 jobs per dollar compared to just 82 jobs per dollar during inefficient hours. Running jobs at night is not only 69% cheaper but also completes 3.28 times more work per dollar spent.
+The analysis reveals dramatic cost differences. During cheap hours, average electricity is $37.54/MWh versus $78.66/MWh during expensive hours, translating to $0.46/hour versus $1.51/hour operating costs (69% reduction). Efficient hours achieve 271 jobs per dollar compared to 82 jobs per dollar during inefficient hours. Running jobs at night is 69% cheaper and completes 3.28 times more work per dollar.
 
-### Clear Time Patterns
+### Time Patterns
 
 <p align="center">
   <img src="daily_weekly_patterns.png" width="800" alt="Time Patterns">
 </p>
 
-The data shows consistent temporal patterns throughout the day and week. The best times to run jobs are from midnight to 8 AM, when 60-85% of hours are classified as efficient, and from 10 PM to 11 PM, when 70-75% of hours are efficient. The worst times are from 9 AM to 9 PM, when only 26-38% of hours are efficient, with 4 PM to 5 PM being the single most expensive period with just 26% efficiency. These patterns align with typical electricity demand cycles, where residential and commercial demand drives prices higher during business hours.
+Best times: midnight to 8 AM (60-85% efficient) and 10 PM to 11 PM (70-75% efficient). Worst times: 9 AM to 9 PM (26-38% efficient), especially 4 PM to 5 PM (26% efficient). These patterns align with electricity demand cycles where residential and commercial demand drives prices higher during business hours.
 
-### What Predicts Efficiency
+### Predictive Features
 
 <p align="center">
   <img src="correlation_heatmap.png" width="700" alt="Feature Relationships">
 </p>
 
-Several features show strong correlations with scheduling efficiency. Power consumption has a -0.545 correlation, GPU utilization shows -0.524 correlation, electricity price has -0.432 correlation, and the business hours flag shows -0.382 correlation. These negative correlations mean that lower values predict higher efficiency. While some relationships like electricity price seem obvious, the strength of these correlations quantifies exactly how much each factor matters, which is essential for building an accurate predictive model.
+Strong correlations with efficiency: power consumption (-0.545), GPU utilization (-0.524), electricity price (-0.432), and business hours (-0.382). These negative correlations mean lower values predict higher efficiency. The correlations quantify exactly how much each factor matters for building an accurate model.
 
-### It's Not Just Price OR Time - It's Both
+### Complex Interactions
 
 <p align="center">
   <img src="cost_efficiency_analysis.png" width="800" alt="Price and Time Together">
 </p>
 
-The relationship between price and efficiency is more complex than simple time-of-day rules. Sometimes night hours experience price spikes due to grid stress events, making them expensive despite being off-peak. Similarly, some daytime hours have surprisingly low prices during low-demand periods. The scatter plots reveal that neither price nor time of day alone determines efficiency - their interaction matters. This complexity justifies using machine learning models like Random Forest or XGBoost that can capture non-linear relationships, rather than relying on simple rules like "always run at night."
+Sometimes night hours experience price spikes, making them expensive despite being off-peak. Some daytime hours have surprisingly low prices. Neither price nor time alone determines efficiency - their interaction matters. This justifies machine learning models like Random Forest or XGBoost rather than simple rules like "always run at night."
 
-### Electricity Prices Are Volatile
+### Price Volatility
 
 <p align="center">
   <img src="electricity_prices_timeseries.png" width="800" alt="Price Over Time">
 </p>
 
-The time series analysis shows that while the average price is $58 per MWh, prices swing wildly throughout the 90-day period. About 2% of hours experience extreme price spikes where costs jump 5-10 times normal levels, reaching over $270 per MWh. These spikes occur during grid stress events caused by equipment failures, extreme weather, or unexpected demand surges. The 24-hour moving average (shown in red) helps smooth out daily volatility and reveals underlying weekly trends. Any scheduling system needs to actively avoid these extreme events, as making poor decisions during spikes is disproportionately costly.
+Average price is $58/MWh, but about 2% of hours experience extreme spikes (5-10× normal) reaching over $270/MWh during grid stress events. The 24-hour moving average (red line) reveals weekly trends. Any scheduling system must avoid these extreme events.
 
 ### Data Distributions
 
@@ -71,71 +65,49 @@ The time series analysis shows that while the average price is $58 per MWh, pric
   <img src="distributions.png" width="800" alt="Data Distributions">
 </p>
 
-The distribution analysis reveals important characteristics of the data. Electricity prices follow a right-skewed distribution with a long tail, meaning most hours cluster around moderate prices with occasional extreme outliers. GPU utilization is approximately normally distributed around 53% with reasonable variance. Hourly costs are also right-skewed with most hours costing under $2 but with extreme outliers reaching $16 per hour. The jobs-per-dollar metric is highly right-skewed with a median of 124, which serves as our classification threshold. Most hours fall into predictable ranges, but the outliers require careful handling in model development.
+Electricity prices are right-skewed with occasional extreme outliers. GPU utilization is normally distributed around 53%. Hourly costs are right-skewed (most under $2, outliers to $16). Jobs-per-dollar is highly right-skewed with median at 124 (our classification threshold).
 
 ---
 
-## What Problems Did We Find?
+## What Problems Did I Find?
 
-The analysis identified several challenges that need to be addressed during model development. The extreme price spikes affecting 2% of hours are particularly problematic because wrong decisions during these events are extremely costly. The solution is to flag these extreme events and implement hard rules to never schedule during them, regardless of what the model predicts.
+Extreme price spikes (2% of hours) are problematic because wrong decisions are extremely costly. Solution: flag extreme events and never schedule during them.
 
-The time series nature of the data creates dependencies between consecutive hours, violating standard machine learning assumptions about independent observations. Daily and weekly patterns repeat over time. To handle this properly, the model needs to be tested on future data rather than randomly selected data, using time-based train/test splits and time series cross-validation.
+Time series dependencies violate standard ML assumptions. Solution: use time-based train/test splits and cross-validation on future data.
 
-Some features are highly related to each other, particularly the various GPU metrics like power consumption, active GPUs, and utilization percentage, which show correlations above 0.9. This multicollinearity can confuse models and lead to unstable predictions. The solution is to keep only the most important representative features and drop redundant ones, or use techniques like L1 regularization that automatically select features.
+Features like power consumption and GPU utilization are highly correlated (>0.9). Solution: keep only the most important features and drop redundant ones.
 
-The 90-day data window, while substantial, only covers late summer through fall and misses seasonal extremes like winter heating demand or peak summer cooling loads. The solution is to focus on generalizable features like hour-of-day and day-of-week patterns that should work year-round, while acknowledging this limitation in the model documentation.
+The 90-day window misses seasonal extremes. Solution: focus on hour-of-day and day-of-week patterns that work year-round.
 
-Finally, there's the cold start problem of how to handle unprecedented conditions that weren't present in the training data. The solution is to implement confidence thresholds where the model only makes recommendations when it's highly confident, and defaults to simple backup rules when uncertain about unusual situations.
+Cold start problem for unprecedented conditions. Solution: use confidence thresholds and default to simple backup rules when uncertain.
 
-### Data Limitations
-
-The GPU data is simulated rather than coming from a real production data center, though it's based on realistic patterns from published research and actual GPU specifications. This is acceptable for developing and testing the methodology, which can later be retrained on real telemetry data. The analysis only covers the Houston area in Texas, but the approach generalizes to other electricity markets with appropriate retraining. The current analysis treats all jobs as equally flexible, while in reality some jobs are urgent and cannot be delayed. Future versions should implement multi-class classification to handle urgent, standard, and deferrable job categories separately.
+The GPU data is simulated (though realistic), covers only Houston, and treats all jobs as flexible. Future versions should handle urgent versus deferrable jobs separately.
 
 ---
 
 ## The Target Variable
 
-### What We're Trying to Predict
-
-The target variable defines what we're trying to predict. We calculate efficiency as the number of jobs completed divided by the cost, then label each hour as "efficient" if it's above the median value of 124 jobs per dollar, and "inefficient" if it's below. This creates a binary classification problem with a clean 50/50 split.
-
-This approach works because we're predicting efficiency FROM independent variables like price and time, rather than clustering ON efficiency metrics and "discovering" efficient clusters, which would be circular reasoning. The features represent external conditions and system state at decision time, while the target represents the outcome we want to predict. The balanced class distribution means we don't need to deal with sampling techniques to handle imbalanced data.
+I calculate efficiency as jobs completed divided by cost, then label each hour as "efficient" (above median of 124 jobs per dollar) or "inefficient" (below). This creates binary classification with 50/50 split. This works because we predict efficiency FROM independent variables like price and time, not cluster ON efficiency (which would be circular). The balanced classes mean no need for sampling techniques.
 
 ---
 
-## Features We Created
+## Features I Created
 
-From the raw data, we engineered six new features to improve model performance. Price category bins electricity prices into Low, Medium, and High brackets to help tree-based models make better splits. The business hours flag identifies whether it's 8 AM to 6 PM on a weekday, capturing general demand patterns beyond just the raw hour number. The peak hours flag specifically marks 2 PM to 6 PM, the highest-demand period when scheduling should be avoided. Utilization level categorizes GPU usage into Low, Medium, and High bins to handle non-linear effects. The efficiency label is our target variable, created from the jobs-per-dollar metric. Finally, the 24-hour price average smooths out short-term spikes and captures price trends.
+I engineered six features: price category (Low/Medium/High), business hours flag (8 AM-6 PM weekdays), peak hours flag (2-6 PM), utilization level (Low/Medium/High), efficiency label (target variable), and 24-hour price average (smooths spikes).
 
-For modeling, we include electricity price, hour of day, day of week, business hours flag, peak hours flag, power consumption, and the 24-hour price average. We exclude hourly cost because it's just price multiplied by power and doesn't add new information. We exclude the jobs-per-dollar metric because that's what we used to create the target variable, so using it as a feature would be circular. We also exclude redundant GPU metrics that are highly correlated with power consumption to avoid multicollinearity issues.
+For modeling, I include: electricity price, hour, day of week, business hours flag, peak hours flag, power consumption, and 24-hour price average. I exclude: hourly cost (just price × power), jobs-per-dollar (used to create target), and redundant GPU metrics.
 
 ---
 
 ## Next Steps
 
-### Build Models
-
-The modeling approach starts with simple baseline models including Logistic Regression to establish a performance floor and Decision Trees for interpretability. These baselines help validate that the feature engineering worked and give us something to compare against. From there, we move to more sophisticated ensemble methods like Random Forest with 100-500 trees to capture non-linear interactions, and XGBoost for gradient boosting that handles outliers robustly and often achieves the best performance.
-
-### Test Properly
-
-Model evaluation uses time-based testing where we train on older data and test on newer data to respect the temporal structure. We'll use time series cross-validation with multiple train/test splits that preserve temporal ordering. The target performance metrics are 80% or better precision and 75% or better recall, ensuring we minimize both false positives (recommending bad times) and false negatives (missing good opportunities).
-
-### Build Recommendation System
-
-The final recommendation system takes as input the current electricity price, time of day, day of week, and GPU state. It passes these features through the trained classifier to get a probability score. If the model is 70% or more confident that the hour is efficient, it outputs "Run now" to schedule jobs immediately. If confidence is between 30% and 70%, it outputs "Wait" and suggests checking again soon as conditions are uncertain. If confidence is below 30%, it outputs "Don't run" and recommends waiting for clearly better conditions.
-
-### Expected Results
-
-Based on the strong correlations and clear class separation observed in the EDA, we expect models to achieve 78-85% accuracy. This should translate to 40-50% cost reduction in practice, accounting for the fact that not all workloads can be deferred and the model won't be perfect. For a 100-GPU cluster, this represents approximately $100,000 to $120,000 in annual savings.
+I'll build baseline models (Logistic Regression, Decision Tree) then ensemble methods (Random Forest, XGBoost). Testing uses time-based splits with 80%+ precision and 75%+ recall targets. The recommendation system outputs "Run now" (70%+ confidence), "Wait" (30-70% confidence), or "Don't run" (<30% confidence). Expected results: 78-85% accuracy, 40-50% cost reduction, $100K-$120K annual savings for 100-GPU cluster.
 
 ---
 
 ## Conclusion
 
-The exploratory data analysis demonstrates that the dataset is ready for supervised classification. The data is high quality with no missing values and perfectly balanced classes between efficient and inefficient hours. Clear patterns exist showing that night hours are 69% cheaper than peak hours on average. Strong predictive signals are present with correlations up to -0.545 between features and the target. The temporal patterns are consistent and the problem is solvable with machine learning.
-
-We're ready to move forward with building classification models, developing the recommendation system, and creating a real-time scheduling tool. The foundation established through this EDA provides confidence that machine learning can successfully optimize GPU workload scheduling based on electricity market conditions.
+The dataset is ready for supervised classification with high quality data (no missing values, balanced classes), clear patterns (night 69% cheaper), and strong predictive signals (correlations up to -0.545). I'm ready to build classification models, develop the recommendation system, and create a real-time scheduling tool.
 
 ---
 
