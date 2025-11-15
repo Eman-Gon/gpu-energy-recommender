@@ -9,12 +9,8 @@ warnings.filterwarnings('ignore')
 plt.style.use('seaborn-v0_8-darkgrid')
 sns.set_palette("husl")
 
-print("=" * 80)
-print("GPU ENERGY-AWARE WORKLOAD RECOMMENDATION SYSTEM - EDA")
-print("=" * 80)
 
-# Load datasets
-print("\n1. Loading datasets...")
+print("\n1. Loading datasets")
 ercot_df = pd.read_csv('ercot_prices.csv')
 gpu_df = pd.read_csv('gpu_utilization.csv')
 merged_df = pd.read_csv('merged_data.csv')
@@ -22,22 +18,20 @@ merged_df = pd.read_csv('merged_data.csv')
 for df in [ercot_df, gpu_df, merged_df]:
     df['timestamp'] = pd.to_datetime(df['timestamp'])
 
-print(f"   - ERCOT Data: {ercot_df.shape}")
-print(f"   - GPU Data: {gpu_df.shape}")
-print(f"   - Merged Data: {merged_df.shape}")
+print(f"- ERCOT Data: {ercot_df.shape}")
+print(f"- GPU Data: {gpu_df.shape}")
+print(f"- Merged Data: {merged_df.shape}")
 
-# Data Quality Assessment
-print("\n2. Data Quality Assessment...")
-print(f"   - Missing values: {merged_df.isnull().sum().sum()}")
-print(f"   - Duplicate rows: {merged_df.duplicated().sum()}")
-print(f"   - Date range: {merged_df['timestamp'].min()} to {merged_df['timestamp'].max()}")
 
-# Statistical Summary
+print("\n2. Data Quality Assessment")
+print(f"- Missing values: {merged_df.isnull().sum().sum()}")
+print(f"- Duplicate rows: {merged_df.duplicated().sum()}")
+print(f"- Date range: {merged_df['timestamp'].min()} to {merged_df['timestamp'].max()}")
+
 print("\n3. Statistical Summary:")
 print(merged_df[['price_mwh', 'gpu_utilization_pct', 'hourly_cost_usd']].describe())
 
-# Feature Engineering
-print("\n4. Creating features...")
+print("\n4. Creating features")
 merged_df['price_category'] = pd.cut(
     merged_df['price_mwh'],
     bins=[0, 40, 70, 1000],
@@ -66,11 +60,10 @@ merged_df['is_efficient_time'] = (
     merged_df['jobs_per_dollar'].median()
 ).astype(int)
 
-print(f"   - Created 5 new features")
-print(f"   - Target variable balance: {merged_df['is_efficient_time'].value_counts().to_dict()}")
+print(f"-Created 5 new features")
+print(f"-Target variable balance: {merged_df['is_efficient_time'].value_counts().to_dict()}")
 
-# Visualization 1: Electricity price time series
-print("\n5. Creating visualizations...")
+print("\n5. Creating visualizations")
 
 fig, ax = plt.subplots(figsize=(15, 6))
 ax.plot(merged_df['timestamp'], merged_df['price_mwh'],
@@ -89,7 +82,6 @@ plt.tight_layout()
 plt.savefig('electricity_prices_timeseries.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-# Visualization 2: Daily and weekly patterns
 fig, axes = plt.subplots(2, 2, figsize=(16, 10))
 
 hourly_price = merged_df.groupby('hour')['price_mwh'].agg(['mean', 'std'])
@@ -147,7 +139,6 @@ plt.tight_layout()
 plt.savefig('daily_weekly_patterns.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-# Visualization 3: Correlation heatmap
 fig, ax = plt.subplots(figsize=(12, 8))
 corr_cols = [
     'price_mwh', 'gpu_utilization_pct', 'active_jobs', 'active_gpus',
@@ -171,7 +162,6 @@ plt.tight_layout()
 plt.savefig('correlation_heatmap.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-# Visualization 4: Cost efficiency
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
 
 scatter = axes[0].scatter(
@@ -206,7 +196,6 @@ plt.tight_layout()
 plt.savefig('cost_efficiency_analysis.png', dpi=300, bbox_inches='tight')
 plt.close()
 
-# Visualization 5: Distributions
 fig, axes = plt.subplots(2, 3, figsize=(16, 10))
 
 axes[0, 0].hist(merged_df['price_mwh'], bins=50, color='steelblue', alpha=0.7, edgecolor='black')
