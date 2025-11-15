@@ -97,18 +97,3 @@ For detailed findings, see [eda/eda_summary.md](eda/eda_summary.md)
 2. **Evaluation** - Target >80% precision, >75% recall
 3. **Recommendation System** - Build real-time decision support
 4. **Business Impact** - Deploy for 40-50% energy cost reduction
-
----
-
-## Course Information
-
-**Course:** CSC-466 Machine Learning  
-**Institution:** California Polytechnic State University, San Luis Obispo  
-**Quarter:** Fall 2025  
-**Assignment:** Final Project Milestone - Data Collection & EDA
-
----
-
-## License
-
-This project is for educational purposes as part of CSC-466 coursework.
