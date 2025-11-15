@@ -47,7 +47,9 @@ Many GPU workloads (ML training, batch processing) are deferrable and can be sch
 
 ### Strong Cost Differential
 
-![Target Variable Analysis](target_variable_analysis.png)
+<p align="center">
+  <img src="target_variable_analysis.png" width="800" alt="Target Variable Analysis">
+</p>
 
 | Metric | Efficient | Inefficient | Difference |
 |--------|-----------|-------------|------------|
@@ -55,16 +57,24 @@ Many GPU workloads (ML training, batch processing) are deferrable and can be sch
 | Cost | $0.46/hr | $1.51/hr | 69% cheaper |
 | Jobs/$ | 271 | 82 | 3.28× better |
 
+The visualization above shows four key comparisons: (1) distribution of jobs-per-dollar metric separated by efficiency class, (2) efficiency rate by hour of day showing clear temporal patterns, (3) average electricity price comparison, and (4) average operating cost comparison between efficient and inefficient hours.
+
 ### Clear Temporal Patterns
 
-![Daily and Weekly Patterns](daily_weekly_patterns.png)
+<p align="center">
+  <img src="daily_weekly_patterns.png" width="800" alt="Daily and Weekly Patterns">
+</p>
 
 **Optimal scheduling**: 00:00-08:00 (60-85% efficient), 22:00-23:00 (70-75% efficient)  
 **Avoid**: 09:00-21:00 (26-38% efficient), especially 16:00-17:00 (26% efficient)
 
+The four subplots show: (top-left) hourly electricity price patterns with error bars, (top-right) GPU utilization by hour, (bottom-left) weekly price patterns across days, and (bottom-right) weekly operating cost patterns.
+
 ### Strong Predictive Features
 
-![Correlation Heatmap](correlation_heatmap.png)
+<p align="center">
+  <img src="correlation_heatmap.png" width="700" alt="Correlation Heatmap">
+</p>
 
 **Top correlations with target:**
 - power_consumption_kw: -0.545
@@ -72,19 +82,35 @@ Many GPU workloads (ML training, batch processing) are deferrable and can be sch
 - price_mwh: -0.432
 - is_business_hours: -0.382
 
+The heatmap reveals feature relationships, with negative correlations (blue) indicating that lower values of these features predict higher efficiency.
+
 ### Non-Linear Interactions
 
-![Cost Efficiency Analysis](cost_efficiency_analysis.png)
+<p align="center">
+  <img src="cost_efficiency_analysis.png" width="800" alt="Cost Efficiency Analysis">
+</p>
 
-Neither price nor utilization alone determines efficiency - their combination matters. Justifies non-linear classifiers (Random Forest, XGBoost).
+Neither price nor utilization alone determines efficiency - their combination matters. Left plot shows price vs utilization colored by hourly cost. Right plot shows price vs jobs-per-dollar colored by hour of day, revealing that night hours (blue) cluster in high-efficiency regions while afternoon hours (red/yellow) cluster in low-efficiency regions. This justifies non-linear classifiers (Random Forest, XGBoost).
 
 ### Price Volatility
 
-![Electricity Price Time Series](electricity_prices_timeseries.png)
+<p align="center">
+  <img src="electricity_prices_timeseries.png" width="800" alt="Electricity Price Time Series">
+</p>
 
 - Mean: $58.23/MWh, high volatility (SD: $47.32)
 - 2% extreme events (>$270/MWh) during grid stress
-- 24-hour moving average reveals weekly trends
+- 24-hour moving average (red line) reveals weekly trends
+
+Time series shows hourly price fluctuations over 90 days with occasional extreme spikes representing grid stress events.
+
+### Statistical Distributions
+
+<p align="center">
+  <img src="distributions.png" width="800" alt="Feature Distributions">
+</p>
+
+Four key distributions: (top-left) electricity price is right-skewed with long tail, (top-right) GPU utilization is approximately normal, (bottom-left) hourly cost is right-skewed with extreme outliers, (bottom-right) jobs-per-dollar is highly right-skewed with median at 124 (our classification threshold).
 
 ---
 
@@ -185,4 +211,21 @@ Dataset ready for supervised classification. Key findings:
 
 ---
 
-**Deliverables:** 12+ visualizations, 4 datasets, complete reproducible code
+## Visualizations Generated
+
+<p align="center">
+  <img src="simple_scatter_efficiency.png" width="400" alt="Scatter: Efficiency Pattern">
+  <img src="boxplots_comparison.png" width="400" alt="Box Plots Comparison">
+</p>
+
+<p align="center">
+  <img src="kmeans_elbow_plot.png" width="400" alt="K-Means Elbow Plot">
+  <img src="pca_analysis.png" width="400" alt="PCA Analysis">
+</p>
+
+<p align="center">
+  <img src="hourly_averages.png" width="400" alt="Hourly Averages">
+  <img src="weekly_patterns.png" width="400" alt="Weekly Patterns">
+</p>
+
+**Total Deliverables:** 12+ visualizations (300 DPI), 4 datasets, complete reproducible code
