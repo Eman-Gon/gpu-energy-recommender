@@ -1,14 +1,3 @@
-"""
-GPU Energy-Aware Workload Recommendation System - EDA Script
-Author: Steven
-Date: November 2025
-
-This script performs exploratory data analysis on:
-1. ERCOT electricity price data
-2. GPU cluster utilization data
-3. Merged dataset for recommendation system development
-"""
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
