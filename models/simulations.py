@@ -115,7 +115,7 @@ class GPUClusterSimulator:
         """Create feature vector for ML model"""
         active_gpus = int(self.total_gpus * (util / 100))
         power_kw = (active_gpus * 300) / 1000  # Convert to kW
-        hourly_cost = (power_kw / 1000) * price  # Cost in USD
+        hourly_cost = power_kw * (price / 1000)  # Cost in USD
         
         day_of_week = self.current_time.weekday()
         is_weekend = 1 if day_of_week >= 5 else 0
