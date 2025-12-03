@@ -44,6 +44,7 @@ print(f" Simulation duration: {SIMULATION_HOURS} hours")
 print("\n[3] Loading historical patterns...")
 
 df = pd.read_csv('../../eda/merged_data_enhanced.csv')
+
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 hourly_patterns = df.groupby('hour').agg({

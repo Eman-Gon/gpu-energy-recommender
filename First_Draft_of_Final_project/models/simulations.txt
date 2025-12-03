@@ -1,3 +1,47 @@
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
 [1mGPU CLUSTER SCHEDULING SIMULATOR[0m
 10,000 GPU Data Center - Real-Time Scheduling Decisions
 
@@ -11,23 +55,367 @@
  Simulation duration: 24 hours
 
 [3] Loading historical patterns...
-Traceback (most recent call last):
-  File "/Users/emanschool/csc466/gpu-energy-recommender/First_Draft_of_Final_project/models/simulations.py", line 46, in <module>
-    df = pd.read_csv('../eda/merged_data_enhanced.csv')
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 948, in read_csv
-    return _read(filepath_or_buffer, kwds)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 611, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1448, in __init__
-    self._engine = self._make_engine(f, self.engine)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1705, in _make_engine
-    self.handles = get_handle(
-                   ^^^^^^^^^^^
-  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/common.py", line 863, in get_handle
-    handle = open(
-             ^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '../eda/merged_data_enhanced.csv'
+ Loaded 2161 historical observations
+ Price range: $15.00 - $772.46/MWh
+
+[4] Starting simulation
+
+[1mHour 1/24 - 02:00[0m
+Current Conditions:
+Electricity Price: $ 15.00/MWh
+GPU Utilization:    20.2%
+Pending Jobs:        53
+Hourly Cost:       $  9.08
+Jobs/Dollar:          5.8 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 2/24 - 03:00[0m
+Current Conditions:
+Electricity Price: $ 42.81/MWh
+GPU Utilization:    52.4%
+Pending Jobs:       110
+Hourly Cost:       $ 67.25
+Jobs/Dollar:          1.6 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 3/24 - 04:00[0m
+Current Conditions:
+Electricity Price: $ 50.91/MWh
+GPU Utilization:    32.9%
+Pending Jobs:        66
+Hourly Cost:       $ 50.27
+Jobs/Dollar:          1.3 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 4/24 - 05:00[0m
+Current Conditions:
+Electricity Price: $ 43.13/MWh
+GPU Utilization:    47.9%
+Pending Jobs:        69
+Hourly Cost:       $ 61.95
+Jobs/Dollar:          1.1 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 5/24 - 06:00[0m
+Current Conditions:
+Electricity Price: $ 54.55/MWh
+GPU Utilization:    36.7%
+Pending Jobs:       101
+Hourly Cost:       $ 60.01
+Jobs/Dollar:          1.7 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 6/24 - 07:00[0m
+Current Conditions:
+Electricity Price: $ 29.45/MWh
+GPU Utilization:    65.9%
+Pending Jobs:        85
+Hourly Cost:       $ 58.21
+Jobs/Dollar:          1.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 7/24 - 08:00[0m
+Current Conditions:
+Electricity Price: $ 53.00/MWh
+GPU Utilization:    77.7%
+Pending Jobs:       149
+Hourly Cost:       $123.51
+Jobs/Dollar:          1.2 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 8/24 - 09:00[0m
+Current Conditions:
+Electricity Price: $ 61.93/MWh
+GPU Utilization:    59.2%
+Pending Jobs:        53
+Hourly Cost:       $109.94
+Jobs/Dollar:          0.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 9/24 - 10:00[0m
+Current Conditions:
+Electricity Price: $115.39/MWh
+GPU Utilization:    38.9%
+Pending Jobs:        69
+Hourly Cost:       $134.59
+Jobs/Dollar:          0.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 10/24 - 11:00[0m
+Current Conditions:
+Electricity Price: $175.71/MWh
+GPU Utilization:    57.2%
+Pending Jobs:        87
+Hourly Cost:       $301.51
+Jobs/Dollar:          0.3 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 11/24 - 12:00[0m
+Current Conditions:
+Electricity Price: $136.94/MWh
+GPU Utilization:    81.0%
+Pending Jobs:        48
+Hourly Cost:       $332.94
+Jobs/Dollar:          0.1 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 12/24 - 13:00[0m
+Current Conditions:
+Electricity Price: $ 66.89/MWh
+GPU Utilization:    60.7%
+Pending Jobs:       152
+Hourly Cost:       $121.89
+Jobs/Dollar:          1.2 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 13/24 - 14:00[0m
+Current Conditions:
+Electricity Price: $ 15.00/MWh
+GPU Utilization:    79.0%
+Pending Jobs:        90
+Hourly Cost:       $ 35.56
+Jobs/Dollar:          2.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 14/24 - 15:00[0m
+Current Conditions:
+Electricity Price: $ 15.00/MWh
+GPU Utilization:    81.9%
+Pending Jobs:       142
+Hourly Cost:       $ 36.85
+Jobs/Dollar:          3.9 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 15/24 - 16:00[0m
+Current Conditions:
+Electricity Price: $ 69.15/MWh
+GPU Utilization:    74.7%
+Pending Jobs:       158
+Hourly Cost:       $154.96
+Jobs/Dollar:          1.0 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 16/24 - 17:00[0m
+Current Conditions:
+Electricity Price: $ 15.00/MWh
+GPU Utilization:    57.8%
+Pending Jobs:       133
+Hourly Cost:       $ 26.01
+Jobs/Dollar:          5.1 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 17/24 - 18:00[0m
+Current Conditions:
+Electricity Price: $ 43.09/MWh
+GPU Utilization:    65.6%
+Pending Jobs:       170
+Hourly Cost:       $ 84.77
+Jobs/Dollar:          2.0 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 18/24 - 19:00[0m
+Current Conditions:
+Electricity Price: $115.73/MWh
+GPU Utilization:    71.0%
+Pending Jobs:        73
+Hourly Cost:       $246.62
+Jobs/Dollar:          0.3 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 19/24 - 20:00[0m
+Current Conditions:
+Electricity Price: $137.96/MWh
+GPU Utilization:    27.8%
+Pending Jobs:        56
+Hourly Cost:       $114.90
+Jobs/Dollar:          0.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 20/24 - 21:00[0m
+Current Conditions:
+Electricity Price: $ 99.86/MWh
+GPU Utilization:    47.8%
+Pending Jobs:        70
+Hourly Cost:       $143.14
+Jobs/Dollar:          0.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [91mRule-Based:  WAIT[0m
+
+[1mHour 21/24 - 22:00[0m
+Current Conditions:
+Electricity Price: $ 41.61/MWh
+GPU Utilization:    44.4%
+Pending Jobs:        56
+Hourly Cost:       $ 55.38
+Jobs/Dollar:          1.0 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 22/24 - 23:00[0m
+Current Conditions:
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+  warnings.warn(
+Electricity Price: $ 18.61/MWh
+GPU Utilization:    50.3%
+Pending Jobs:        97
+Hourly Cost:       $ 28.06
+Jobs/Dollar:          3.5 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 23/24 - 00:00[0m
+Current Conditions:
+Electricity Price: $ 56.59/MWh
+GPU Utilization:    57.1%
+Pending Jobs:        95
+Hourly Cost:       $ 96.89
+Jobs/Dollar:          1.0 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+
+[1mHour 24/24 - 01:00[0m
+Current Conditions:
+Electricity Price: $ 15.00/MWh
+GPU Utilization:    52.4%
+Pending Jobs:        89
+Hourly Cost:       $ 23.57
+Jobs/Dollar:          3.8 [91m(INEFFICIENT)[0m
+
+  Scheduling Decisions:
+    [91mML Model:     WAIT (confidence: 0.0%)[0m
+    [92mRule-Based: SCHEDULE NOW[0m
+
+    [93m  DECISIONS DIFFER![0m
+ ML avoided inefficient window that rule would schedule
+[1mSIMULATION COMPLETE - 24 HOUR SUMMARY[0m
+
+[1mML-BASED SCHEDULING:[0m
+Jobs Completed:  0
+Jobs Delayed:    2,271
+Total Cost:      $0.00
+Cost per Job:    $0.0000
+Efficiency:      0.00 jobs/dollar
+
+[1mRULE-BASED SCHEDULING:[0m
+Jobs Completed:  1,356
+Jobs Delayed:    915
+Total Cost:      $693.85
+Cost per Job:    $0.5117
+Efficiency:      1.95 jobs/dollar
+
+[1mCOMPARISON:[0m
+  [92m ML saved $693.85 (100.0%)[0m
+  [91m ML completed 1,356 fewer jobs[0m
+
+[1mYEARLY PROJECTION:[0m
+ Estimated annual savings: [92m$253,255.82[0m
+ Estimated annual job difference: -494,940
+
+[1mSimulation demonstrates real-time ML-based scheduling decisions[0m
+Model: Logistic Regression (97.6% accuracy on test set)
