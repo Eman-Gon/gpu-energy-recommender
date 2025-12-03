@@ -25,7 +25,7 @@ print("CSC-466 Final Project. The Training Script")
 
 print("\n[1/6] Loading dataset")
 
-df = pd.read_csv('../eda/merged_data_enhanced.csv')
+df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 print(f"Loaded {len(df)} records")

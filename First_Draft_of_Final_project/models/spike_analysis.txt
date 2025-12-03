@@ -1,0 +1,90 @@
+/Users/emanschool/csc466/gpu-energy-recommender/First_Draft_of_Final_project/models/spike_analysis.py:77: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  daytime['day_name'] = daytime['day_of_week'].map(days)
+================================================================================
+ANALYZING DAYTIME EFFICIENCY SPIKES
+================================================================================
+
+Daytime hours (9am-5pm): 811 total
+  Efficient: 252 (31.1%)
+  Inefficient: 559 (68.9%)
+
+================================================================================
+WHAT MAKES EFFICIENT DAYTIME HOURS DIFFERENT?
+================================================================================
+
+--- EFFICIENT Daytime Hours ---
+Average price:        $46.29/MWh
+Average utilization:  45.3%
+Average active jobs:  113
+Average hourly cost:  $0.61
+
+--- INEFFICIENT Daytime Hours ---
+Average price:        $88.54/MWh
+Average utilization:  70.0%
+Average active jobs:  136
+Average hourly cost:  $1.87
+
+--- DIFFERENCE ---
+Price difference:     $42.25/MWh
+Utilization diff:     24.7%
+Jobs diff:            -23
+
+================================================================================
+TIME-OF-DAY PATTERN IN DAYTIME
+================================================================================
+
+Efficiency by hour (9am-5pm):
+  09:00 -  33.3% efficient | Price: $ 66.9 | Util: 60.0% | Jobs:  128
+  10:00 -  33.3% efficient | Price: $ 73.2 | Util: 60.0% | Jobs:  126
+  11:00 -  35.6% efficient | Price: $ 73.9 | Util: 62.8% | Jobs:  128
+  12:00 -  28.9% efficient | Price: $ 76.8 | Util: 64.9% | Jobs:  132
+  13:00 -  31.1% efficient | Price: $ 66.1 | Util: 62.1% | Jobs:  126
+  14:00 -  28.9% efficient | Price: $ 77.8 | Util: 64.1% | Jobs:  132
+  15:00 -  36.7% efficient | Price: $ 90.9 | Util: 61.3% | Jobs:  129
+  16:00 -  25.6% efficient | Price: $ 76.0 | Util: 63.0% | Jobs:  128
+  17:00 -  26.4% efficient | Price: $ 77.1 | Util: 63.0% | Jobs:  128
+
+================================================================================
+DAY-OF-WEEK PATTERN IN DAYTIME
+================================================================================
+
+Efficiency by day of week:
+  Monday     -  20.5% efficient | Price: $ 91.6 | Util: 71.0%
+  Tuesday    -  12.0% efficient | Price: $ 98.7 | Util: 70.0%
+  Wednesday  -  17.1% efficient | Price: $ 89.5 | Util: 68.5%
+  Thursday   -  13.8% efficient | Price: $ 88.9 | Util: 68.9%
+  Friday     -  16.2% efficient | Price: $ 85.3 | Util: 70.0%
+  Saturday   -  65.8% efficient | Price: $ 36.8 | Util: 43.7%
+  Sunday     -  70.9% efficient | Price: $ 38.0 | Util: 44.9%
+
+================================================================================
+CLUSTERING ANALYSIS
+================================================================================
+
+If a daytime hour is efficient, probability next hour is also efficient: 48.0%
+→ Efficient hours are SCATTERED (more random)
+
+================================================================================
+SPECIFIC EXAMPLES OF EFFICIENT DAYTIME HOURS
+================================================================================
+
+Top 5 most efficient daytime hours:
+          timestamp  hour  day_of_week  price_mwh  gpu_utilization_pct  active_jobs  jobs_per_dollar
+2025-08-17 15:00:00    15            6  57.597314             0.000000           59      5900.000000
+2025-08-31 12:00:00    12            6  45.490092             1.916067           84      3631.560797
+2025-10-25 17:00:00    17            5  45.417247             4.449779           86      1373.731389
+2025-10-18 15:00:00    15            5  31.205955             8.944971          107      1189.822425
+2025-10-18 17:00:00    17            5  15.819004            11.009219           72      1180.057906
+
+================================================================================
+VERDICT: ARE DAYTIME SPIKES RANDOM OR PATTERNED?
+================================================================================
+✅ PRICE PATTERN: Efficient daytime is $42.2/MWh cheaper
+   → Not random - driven by electricity market dips
+⚠️  LOW CLUSTERING: 48.0% persistence
+   → Efficient hours are isolated events
+⚠️  NO HOUR-OF-DAY PATTERN: Best hour is only 36.7% efficient

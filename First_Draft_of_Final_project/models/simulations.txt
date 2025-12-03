@@ -1,0 +1,33 @@
+[1mGPU CLUSTER SCHEDULING SIMULATOR[0m
+10,000 GPU Data Center - Real-Time Scheduling Decisions
+
+[1] Loading trained ML model 
+ Loaded Logistic Regression model (97.6% accuracy)
+ Features: price_mwh, gpu_utilization_pct, active_jobs, power_consumption_kw, hourly_cost_usd...
+
+[2] Simulation setup
+ Cluster size: 10,000 GPUs
+ Power per GPU: 300W
+ Simulation duration: 24 hours
+
+[3] Loading historical patterns...
+Traceback (most recent call last):
+  File "/Users/emanschool/csc466/gpu-energy-recommender/First_Draft_of_Final_project/models/simulations.py", line 46, in <module>
+    df = pd.read_csv('../eda/merged_data_enhanced.csv')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 948, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 611, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1448, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1705, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/common.py", line 863, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '../eda/merged_data_enhanced.csv'

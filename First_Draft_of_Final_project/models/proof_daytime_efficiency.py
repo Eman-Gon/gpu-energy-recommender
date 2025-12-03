@@ -3,7 +3,7 @@ Analysis: Prove that daytime can be MORE efficient than nighttime
 """
 import pandas as pd
 import numpy as np
-df = pd.read_csv('../eda/merged_data_enhanced.csv')
+df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 
 
 print("PROOF: DAYTIME CAN BE MORE EFFICIENT THAN NIGHTTIME")

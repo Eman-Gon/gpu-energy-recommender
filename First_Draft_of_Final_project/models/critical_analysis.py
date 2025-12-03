@@ -5,7 +5,7 @@ Analysis: Is this project just "run at night" or is there real ML value?
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('../eda/merged_data_enhanced.csv')
+df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 
 print("CRITICAL ANALYSIS: IS THIS JUST 'RUN AT NIGHT'?")
 

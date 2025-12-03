@@ -1,0 +1,41 @@
+============================================================
+STATISTICAL SIGNIFICANCE TESTING
+============================================================
+
+[1] McNemar's Test: ML vs 'Run at Night' Rule
+------------------------------------------------------------
+Both correct:           334
+Both wrong:             10
+ML correct, Rule wrong: 194
+Rule correct, ML wrong: 3
+
+McNemar's statistic: 183.25
+P-value: 0.00e+00
+✅ HIGHLY SIGNIFICANT (p < 0.001)
+   ML improvement over baseline is NOT due to chance
+
+[2] 95% Confidence Intervals
+------------------------------------------------------------
+ML Model:    97.6% (95% CI: 95.9% - 98.6%)
+Rule-based:  62.3% (95% CI: 58.1% - 66.3%)
+
+✅ Confidence intervals DON'T overlap
+   ML is definitively better than baseline
+
+[3] Effect Size (Cohen's h)
+------------------------------------------------------------
+Cohen's h: 1.011
+→ LARGE effect size
+
+============================================================
+VERDICT
+============================================================
+✅ ML improves accuracy by 35.3 percentage points
+✅ Improvement is statistically significant (p < 0.001)
+✅ With 95% confidence, ML accuracy is between 95.9% - 98.6%
+✅ Effect size is 1.01 (LARGE)
+
+🎯 STRONG CONCLUSION: ML model is definitively superior
+   - Statistically significant improvement
+   - Confidence intervals don't overlap
+   - Large effect size

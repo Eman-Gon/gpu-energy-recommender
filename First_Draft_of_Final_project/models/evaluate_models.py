@@ -17,7 +17,7 @@ sns.set_palette("husl")
 
 
 print("\n[1/4] Loading data and models")
-df = pd.read_csv('../eda/merged_data_enhanced.csv')
+df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 

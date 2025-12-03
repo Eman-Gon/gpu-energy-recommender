@@ -15,7 +15,7 @@ print("visual generator")
 
 model = joblib.load('../results/logistic_regression_model.pkl')
 scaler = joblib.load('../results/scaler.pkl')
-df = pd.read_csv('../eda/merged_data_enhanced.csv')
+df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 with open('../results/feature_names.txt', 'r') as f:

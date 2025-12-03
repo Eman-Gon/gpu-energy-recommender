@@ -1,0 +1,20 @@
+
+[1/4] Loading data and models
+ Loaded 4 models
+ Test set: 541 samples
+
+[2/4] Creating model comparison visualization
+ Saved: results/plots/model_comparison.png
+
+[3/4] Creating ROC curves
+ Saved: results/plots/roc_curves.png
+
+[4/4] Creating confusion matrices
+ Saved: results/plots/confusion_matrices.png
+
+Creating feature importance plots
+ Saved: results/plots/feature_importance.png
+  1. results/plots/model_comparison.png
+  2. results/plots/roc_curves.png
+  3. results/plots/confusion_matrices.png
+  4. results/plots/feature_importance.png
