@@ -74,6 +74,7 @@ print("="*80)
 days = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 
         4: 'Friday', 5: 'Saturday', 6: 'Sunday'}
 
+daytime = daytime.copy()
 daytime['day_name'] = daytime['day_of_week'].map(days)
 daytime_by_day = daytime.groupby('day_name').agg({
     'is_efficient_time': 'mean',
