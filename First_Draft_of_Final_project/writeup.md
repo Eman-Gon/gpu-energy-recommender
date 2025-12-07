@@ -1,60 +1,57 @@
 # GPU Energy-Aware Workload Scheduling: A Machine Learning Approach
 
-**Steven Gonzalez**  
+**Emanuel Gonzalez**  
 California Polytechnic State University, San Luis Obispo  
 CSC-466 Knowledge Discovery from Data  
 December 2025
 
----
+## The Idea
 
-## Abstract
+Running GPU workloads in data centers costs money, and electricity prices change dramatically throughout the day. Ishow that machine learning is needed to find the best times to schedule work. I trained four models on 2,161 hours of electricity price and GPU usage data, achieving 97.4% accuracy. This beats simple rules by 19-33 percentage points. I found that 31% of daytime hours are actually efficient for running jobs, with the best daytime hours being 68× better than the worst nighttime hours. This proves the problem is not trivial.
 
-Data center GPU workloads incur significant electricity costs that vary dramatically by time of day. We demonstrate that optimal scheduling requires machine learning to capture complex interactions between electricity markets, workload patterns, and temporal dynamics. Training four classification models on 2,161 hours of ERCOT electricity price and GPU utilization data, we achieve 97.4% accuracy—outperforming rule-based heuristics by 19-33 percentage points. The discovery that 31.1% of daytime hours are efficient, with the best daytime windows performing 68.6× better than worst nighttime windows, validates this as a non-trivial machine learning problem.
+## Intro
 
-## 1. Introduction
+Large GPU clusters use huge amounts of electricity. In Texas (ERCOT market), prices range from $15/MWh to $772/MWh throughout the day. For a 10,000-GPU cluster, poor scheduling can waste over $2,000 per hour.
 
-Modern GPU clusters consume massive electricity volumes, with costs varying by over 5,000% throughout the day. In ERCOT (Texas), prices range from $15/MWh to $772/MWh. For a 10,000-GPU cluster at 3 MW, suboptimal scheduling costs exceed $2,000/hour.
+The simple approach of "just run jobs at night when electricity is cheap" has problems. Nighttime can be expensive during high demand, and daytime sometimes offers good opportunities when renewable energy is plentiful. These patterns are too complex for simple rules.
 
-The naive "run at night when electricity is cheap" approach ignores that nighttime can be expensive during high demand, daytime offers unexpected efficiency from renewable surpluses, and workload patterns interact non-linearly with pricing.
+**Question:** Can machine learning find better scheduling patterns than simple rules?
 
-**Research Question:** Can machine learning discover scheduling patterns that significantly outperform simple rule-based heuristics?
+**What I Found:**
+1. GPU scheduling needs machine learning (scored 9/9 on complexity metrics)
+2. 31% of daytime hours are efficient, with 68× difference between best and worst hours
+3. Our models achieve 97.4% accuracy across different algorithms
 
-**Contributions:**
-1. Empirical validation of GPU scheduling as a non-trivial ML problem (9/9 complexity score)
-2. Quantitative proof that 31.1% of daytime hours are efficient, with 68.6× variance
-3. Production-ready models achieving 97.4% accuracy across algorithm families
 
-## 2. Methodology
+###  Dataset
 
-### 2.1 Dataset
+I combined two data sources over 90 days (August-November 2025):
+- **Electricity Prices:** Real hourly prices from Houston, Texas ($15-$772/MWh)
+- **GPU Usage:** Simulated but realistic 10,000-GPU cluster data (300W per GPU)
 
-We combined two data sources over 90 days (August-November 2025):
-- **ERCOT Electricity Prices:** Hourly real-time prices from Houston load zone ($15-$772/MWh)
-- **GPU Cluster Utilization:** Simulated 10,000-GPU cluster (300W/GPU) with realistic workload patterns
+Total: 2,161 hourly observations, no missing data.
 
-Result: 2,161 hourly observations, zero missing values, perfect temporal continuity.
+###  Features and Target
 
-### 2.2 Features and Target
+**17 Features** describing each hour:
+- Economic: electricity price, total cost, power usage
+- Workload: GPU utilization percentage, number of active jobs
+- Time: hour of day, day of week, weekday/weekend, business hours, peak hours
+- Advanced: 24-hour price average, price-utilization combination, efficiency ratios
 
-**17 Features** capture market conditions, workload, and temporal patterns:
-- Economic: `price_mwh`, `hourly_cost_usd`, `power_consumption_kw`
-- Workload: `gpu_utilization_pct`, `active_jobs`
-- Temporal: `hour`, `day_of_week`, `is_weekend`, `is_business_hours`, `is_peak_hours`
-- Engineered: `price_rolling_mean_24h`, `price_util_interaction`, `jobs_per_kwh`, cyclical encodings
+**Target:** I labeled hours as "efficient" (1) or "inefficient" (0) based on jobs completed per dollar spent. Hours above the median (124 jobs/dollar) are efficient. This created perfectly balanced classes: 1,080 efficient, 1,081 inefficient.
 
-**Target Variable:** Binary classification of efficient hours using `jobs_per_dollar = active_jobs / hourly_cost_usd`. Hours exceeding median (124 jobs/dollar) labeled efficient (1), creating perfectly balanced classes (1,080 efficient, 1,081 inefficient).
+###  Models
 
-### 2.3 Models
+I trained four different algorithms using a 75/25 train/test split:
+- **Logistic Regression:** Simple linear model
+- **Decision Tree:** Rule-based tree model
+- **Random Forest:** 100 trees working together
+- **XGBoost:** Advanced gradient boosting
 
-Four algorithms trained with time-series split (75% train, 25% test):
-- **Logistic Regression:** Linear baseline with StandardScaler
-- **Decision Tree:** max_depth=10
-- **Random Forest:** 100 trees, max_depth=15  
-- **XGBoost:** 100 estimators, gradient boosting
+## Results
 
-## 3. Results
-
-### 3.1 Model Performance
+###  Model Performance
 
 | Model | Accuracy | Precision | Recall | F1 | AUC |
 |-------|----------|-----------|--------|-----|-----|
@@ -63,115 +60,107 @@ Four algorithms trained with time-series split (75% train, 25% test):
 | Random Forest | 96.3% | 97.3% | 95.1% | 96.2% | 0.997 |
 | Decision Tree | 96.3% | 95.2% | 97.4% | 96.3% | 0.963 |
 
-Logistic Regression achieved best F1-score with only 14 errors/541 test samples (2.6% error rate).
+Logistic Regression performed best with only 14 errors out of 541 test samples (2.6% error rate).
 
-### 3.2 Baseline Comparison
+###  Comparison to Simple Rules
 
 | Strategy | Accuracy | Improvement |
 |----------|----------|-------------|
 | "Run at night (0-8am)" | 64.2% | — |
 | "Run when price < $44/MWh" | 78.4% | — |
-| "Run when util < 60%" | 70.5% | — |
-| **ML (Logistic Regression)** | **97.4%** | **+19.2 to +33.2 pp** |
+| "Run when utilization < 60%" | 70.5% | — |
+| **ML (Logistic Regression)** | **97.4%** | **+19.2 to +33.2 points** |
 
-ML achieves 19.2-point improvement over best baseline, 33.2 points over naive "run at night" rule.
+Machine learning improves 19 points over the best simple rule and 33 points over "just run at night."
 
-### 3.3 Why Simple Rules Fail
+###  Why Simple Rules Fail
 
 ![Price Anomalies](results/plots/chart1_price_anomalies.png)  
-*Figure 1: Electricity price volatility showing when "run at night" fails. Green stars mark cheap daytime opportunities (128 total), red X's mark expensive nighttime failures (40 total).*
+*Figure 1: Electricity prices over 90 days. Green stars show 128 cheap daytime opportunities that simple rules miss. Red X's show 40 expensive nighttime hours that simple rules wrongly schedule.*
 
-**"Run at Night" Rule (64.2% accuracy) makes 774 errors:**
-- **567 false negatives:** Efficient daytime hours missed (avg: $41.60/MWh, 45.2% util, 104 jobs)
-- **207 false positives:** Expensive nighttime hours scheduled (avg: $49.51/MWh, 57.4% util, 66 jobs)
+**The "Run at Night" Rule makes 774 mistakes:**
+- **567 missed opportunities:** Efficient daytime hours ignored (average $41.60/MWh, 45% utilization, 104 jobs)
+- **207 bad schedules:** Expensive nighttime hours used (average $49.51/MWh, 57% utilization, 66 jobs)
 
 **Key Findings:**
-- 28.8% of nighttime hours inefficient
-- 31.1% of daytime hours efficient
-- Weekends: 65.8% Saturday daytime, 70.9% Sunday daytime efficient
-- **Best daytime 68.6× better than worst nighttime** (5,900 vs 86 jobs/dollar)
+- 29% of nighttime hours are actually inefficient
+- 31% of daytime hours are actually efficient
+- Weekends are different: 66% of Saturday daytime and 71% of Sunday daytime are efficient
+- **Best daytime is 68× better than worst nighttime** (5,900 vs 86 jobs/dollar)
 
-### 3.4 Feature Importance
+### What Features Matter Most
 
 ![Feature Importance](results/plots/comparison.png)  
-*Figure 2: Feature importance across Decision Tree, Random Forest, and XGBoost models showing economic and workload features dominate.*
+*Figure 2: Feature importance across three tree-based models. Economic and workload features are most important.*
 
-**Top 5 Features (Random Forest):**
-1. `hourly_cost_usd` (34.2%) - Price × utilization interaction
-2. `active_jobs` (18.7%) - Workload demand
-3. `price_mwh` (15.6%) - Market price
-4. `power_consumption_kw` (8.9%) - Energy consumption
-5. `gpu_utilization_pct` (5.6%) - Resource contention
+**Top 5 Most Important Features:**
+1. `hourly_cost_usd` (34%) - Combination of price and utilization
+2. `active_jobs` (19%) - How much work is available
+3. `price_mwh` (16%) - Electricity price
+4. `power_consumption_kw` (9%) - Energy use
+5. `gpu_utilization_pct` (6%) - How busy the GPUs are
 
-Economic features dominate (49.8%), but workload features contribute substantially (30.8%), proving the problem transcends "check electricity price." All three tree-based models consistently rank `hourly_cost_usd` and `active_jobs` as top predictors, confirming robust feature importance across algorithms.
-### 3.5 Model Validation
+Economic features (price, cost) make up 50% of importance, but workload features (jobs, utilization) contribute 31%. This proves the problem is more complex than "just check the price."
+
+###  Model Validation
 
 ![Confusion Matrices](results/plots/confusion_matrices.png)  
-*Figure 3: Confusion matrices for all four models showing minimal classification errors across test set.*
+*Figure 3: Confusion matrices showing how few errors each model makes.*
 
-The confusion matrices demonstrate exceptional performance:
+All models perform very well:
 - **Logistic Regression:** 14 total errors (7 false positives, 7 false negatives)
-- **Random Forest:** 20 total errors with slight bias toward false negatives
-- **XGBoost:** 15 total errors, balanced error distribution
-- **Decision Tree:** 20 total errors with higher false positives
+- **Random Forest:** 20 errors, slightly misses efficient hours
+- **XGBoost:** 15 errors, balanced mistakes
+- **Decision Tree:** 20 errors, slightly over-schedules
 
-All models achieve >95% true positive and true negative rates, confirming robust pattern recognition across algorithm families.
+All models correctly classify over 95% of hours.
 
-### 3.6 Statistical Validation
+### Proof
 
-McNemar's test confirms ML superiority:
-- **McNemar's Statistic:** 519.84
+McNemar's statistical test confirms our results are real:
+- **Test Statistic:** 519.84
 - **P-value:** <0.001 (highly significant)
-- **95% CI (ML):** 96.5%-98.4%
-- **95% CI (Baseline):** 60.3%-68.0%
+- **95% Confidence Interval (ML):** 96.5%-98.4%
+- **95% Confidence Interval (Baseline):** 60.3%-68.0%
 
-Non-overlapping confidence intervals prove definitive improvement.
+The confidence intervals don't overlap, proving machine learning is definitively better.
 
-Non-overlapping confidence intervals prove definitive improvement.
+### Complexity Score
 
-### 3.7 Complexity Validation
 
-**Problem Complexity Score: 9/9**
-1. ✅ Daytime efficiency 31.1% (>20% threshold) [+3]
-2. ✅ Nighttime variability 71.2% (<85% threshold) [+3]
-3. ✅ ML improvement 19.2 points (>15 point threshold) [+3]
+1. Daytime efficiency 31% (threshold: >20%) - 3 points
+2. Nighttime variability 71% (threshold: <85%) - 3 points
+3. ML improvement 19 points (threshold: >15 points) - 3 points
 
-**Verdict:** "REAL ML value, NOT trivial! Discovering nuanced patterns beyond 'run at night.'"
 
-## 4. Discussion
 
-### 4.1 Why ML Succeeds
+###  Why Machine Learning Works
 
-GPU scheduling exhibits properties requiring supervised learning:
-1. **Non-linear interactions:** Efficiency depends on multiplicative price × utilization × jobs
-2. **Context-dependence:** Same hour efficient/inefficient based on market conditions
-3. **High dimensionality:** 17 features interact beyond simple rule capacity
+GPU scheduling has three properties that need machine learning:
+1. **Complex relationships:** Efficiency depends on price times utilization times available jobs
+2. **Context matters:** The same hour can be good or bad depending on conditions
+3. **Many features:** 17 features interact in ways simple rules can't capture
 
-Four algorithm convergence to >96% indicates robust signal, not overfitting.
+All four algorithms achieving over 96% accuracy proves the patterns are real and learnable.
 
-### 4.2 Limitations
+### Limitations
 
-- **Temporal coverage:** 90 days may miss seasonal extremes
-- **Simulated utilization:** Synthetic workload data vs. production logs
-- **Default hyperparameters:** No tuning performed (though 97.4% exceeds requirements)
-- **Static features:** Could add weather forecasts, grid stress indicators
+- **Limited time period:** 90 days might miss seasonal patterns
+- **Simulated data:** GPU usage is realistic but not from a real cluster
+- **No optimization:** I used default settings for all models
+- **Basic features:** Could add weather data or grid stress indicators
 
-### 4.3 Future Work
+###  Future Work
 
-1. Deep learning (LSTM/Transformers) for sequence modeling
-2. Cost-sensitive learning weighting false positives higher
-3. Multi-class classification ("run now" vs "defer 2-4hrs" vs "defer to night")
-4. SHAP explainability for operator trust
-5. Reinforcement learning for sequential decisions
+1. Try deep learning models (LSTM, Transformers) for time patterns
+2. Make false positives (scheduling expensive hours) cost more than false negatives
+3. Create three categories: "run now," "wait 2-4 hours," "wait until night"
+4. Add explainability so operators understand each decision
+5. Try reinforcement learning for sequential scheduling decisions
 
-## 5. Conclusion
 
-This work proves GPU workload scheduling is a non-trivial ML problem. Binary classification achieves 97.4% accuracy, outperforming heuristics by 19-33 points. The 31.1% daytime efficiency discovery—with 68.6× variance—invalidates "just run at night."
+This work proves that GPU scheduling needs machine learning. Our models achieve 97.4% accuracy, beating simple rules by 19-33 points. Finding that 31% of daytime hours are efficient—with 68× difference between best and worst—shows the problem is not just "run at night."
 
-Statistical validation (p<0.001), 9/9 complexity score, and four-algorithm convergence demonstrate robust predictive signals from electricity market × workload × temporal interactions. Feature analysis shows economic factors dominate (49.8%) but workload/temporal contribute substantially (40%+). UMAP confirms natural clustering validates supervised classification.
+Statistical tests (p<0.001), a 9/9 complexity score, and four different algorithms all agreeing prove the patterns are real. Economic factors are most important (50%) but workload and time factors add substantial value (40% combined).
 
-Systematic error analysis reveals simple rules miss 567 efficient daytime opportunities while incorrectly scheduling 207 expensive nighttime hours. For large-scale GPU infrastructure, these results justify ML-based scheduling investment through high accuracy (97.4%), large improvements (+19-33 points), and statistical rigor (p<0.001).
-
----
-
-**Code & Data:** github.com/Eman-Gon/gpu-energy-recommender
+Simple rules make 774 mistakes: missing 567 good daytime opportunities while wrongly scheduling 207 expensive nighttime hours. For large GPU operations, these results show that machine learning can save money through better scheduling (97% accuracy, 19-33 point improvement, statistically proven).
