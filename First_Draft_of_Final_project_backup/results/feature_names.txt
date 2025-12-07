@@ -1,0 +1,17 @@
+price_mwh
+gpu_utilization_pct
+active_jobs
+power_consumption_kw
+hourly_cost_usd
+hour
+day_of_week
+is_weekend
+is_business_hours
+is_peak_hours
+price_rolling_mean_24h
+price_util_interaction
+jobs_per_kwh
+hour_sin
+hour_cos
+day_sin
+day_cos

@@ -1,144 +1,83 @@
-# Classification Models for GPU Energy Efficiency Prediction
+"""
+Classification Models for GPU Energy Efficiency Prediction
+"""
+
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, 
-    f1_score, roc_auc_score, confusion_matrix,
-    classification_report, roc_curve
-)
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 import joblib
-from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
-print("GPU ENERGY EFFICIENCY CLASSIFIER")
-print("CSC-466 Final Project. The Training Script")
+print("GPU ENERGY EFFICIENCY CLASSIFIER\n")
 
-
-print("\n[1/6] Loading dataset")
-
+print("[1/6] Loading dataset")
 df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 print(f"Loaded {len(df)} records")
-print(f"Date range: {df['timestamp'].min()} to {df['timestamp'].max()}")
+print(f"Date range: {df['timestamp'].min()} to {df['timestamp'].max()}\n")
 
-print("\n[2/6] Feature Engineering")
+print("[2/6] Feature Engineering")
 
-# Add 24-hour rolling price average
-df['price_rolling_mean_24h'] = df['price_mwh'].rolling(
-    window=24, center=True, min_periods=1
-).mean()
-
-# Add price-utilization interaction (key insight from analysis!)
+df['price_rolling_mean_24h'] = df['price_mwh'].rolling(window=24, center=True, min_periods=1).mean()
 df['price_util_interaction'] = df['price_mwh'] * df['gpu_utilization_pct']
-
-# Add efficiency ratio
 df['jobs_per_kwh'] = df['active_jobs'] / (df['power_consumption_kw'] + 0.01)
-
-# Add cyclic time encoding (hour 0 and 23 are close!)
 df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
 df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
-
-# Add day of week cyclic encoding
 df['day_sin'] = np.sin(2 * np.pi * df['day_of_week'] / 7)
 df['day_cos'] = np.cos(2 * np.pi * df['day_of_week'] / 7)
 
-print(f"✓ Created 7 engineered features")
-
-# Final feature set
 feature_cols = [
-    # Raw features
-    'price_mwh',
-    'gpu_utilization_pct',
-    'active_jobs',
-    'power_consumption_kw',
-    'hourly_cost_usd',
-    
-    # Original engineered features
-    'hour',
-    'day_of_week',
-    'is_weekend',
-    'is_business_hours',
-    'is_peak_hours',
-    
-    # NEW engineered features
-    'price_rolling_mean_24h',
-    'price_util_interaction',
-    'jobs_per_kwh',
-    'hour_sin',
-    'hour_cos',
-    'day_sin',
-    'day_cos'
+    'price_mwh', 'gpu_utilization_pct', 'active_jobs', 'power_consumption_kw', 'hourly_cost_usd',
+    'hour', 'day_of_week', 'is_weekend', 'is_business_hours', 'is_peak_hours',
+    'price_rolling_mean_24h', 'price_util_interaction', 'jobs_per_kwh',
+    'hour_sin', 'hour_cos', 'day_sin', 'day_cos'
 ]
 
 X = df[feature_cols].copy()
 y = df['is_efficient_time'].copy()
 
-print(f"\nFeature engineering summary:")
-print(f"  Raw features: 5")
-print(f"  Basic temporal features: 5")
-print(f"  Advanced engineered features: 7")
-print(f"  Total features: {len(feature_cols)}")
+print(f"Created {len(feature_cols)} features")
+print(f"Target distribution: {(y==1).sum()} efficient ({(y==1).sum()/len(y)*100:.1f}%), "
+      f"{(y==0).sum()} inefficient ({(y==0).sum()/len(y)*100:.1f}%)\n")
 
-print(f"Features: {len(feature_cols)} columns")
-print(f"Target distribution:")
-print(f"Efficient (1): {(y==1).sum()} ({(y==1).sum()/len(y)*100:.1f}%)")
-print(f"Inefficient (0): {(y==0).sum()} ({(y==0).sum()/len(y)*100:.1f}%)")
+print("[3/6] Creating time-series train/test split")
 
-print("\n[3/6] Creating time-series train/test split")
-
-split_idx = int(len(df) * 0.75)  
-
+split_idx = int(len(df) * 0.75)
 X_train = X.iloc[:split_idx]
 X_test = X.iloc[split_idx:]
 y_train = y.iloc[:split_idx]
 y_test = y.iloc[split_idx:]
 
-print(f" Training set: {len(X_train)} samples")
-print(f" Test set: {len(X_test)} samples")
-print(f" Split date: {df.iloc[split_idx]['timestamp']}")
+print(f"Training set: {len(X_train)} samples")
+print(f"Test set: {len(X_test)} samples")
+print(f"Split date: {df.iloc[split_idx]['timestamp']}\n")
 
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-print(f" Features scaled")
-
-print("\n[4/6] Training classification models")
+print("[4/6] Training classification models\n")
 
 models = {
     'Logistic Regression': LogisticRegression(random_state=42, max_iter=1000),
     'Decision Tree': DecisionTreeClassifier(random_state=42, max_depth=10),
-    'Random Forest': RandomForestClassifier(
-        n_estimators=100, 
-        random_state=42, 
-        max_depth=15,
-        n_jobs=-1
-    ),
-    'XGBoost': XGBClassifier(
-        random_state=42,
-        n_estimators=100,
-        max_depth=6,
-        eval_metric='logloss',
-        use_label_encoder=False
-    )
+    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=42, max_depth=15, n_jobs=-1),
+    'XGBoost': XGBClassifier(random_state=42, n_estimators=100, max_depth=6, eval_metric='logloss', use_label_encoder=False)
 }
+
 trained_models = {}
 results = []
 
 for name, model in models.items():
-    print(f"\n   Training {name}")
+    print(f"Training {name}")
     
-
     if name == 'Logistic Regression':
         model.fit(X_train_scaled, y_train)
         y_pred = model.predict(X_test_scaled)
@@ -164,41 +103,27 @@ for name, model in models.items():
     })
     
     trained_models[name] = model
-    
-    print(f"Accuracy:  {acc:.3f}")
-    print(f"Precision: {prec:.3f}")
-    print(f"Recall:    {rec:.3f}")
-    print(f"F1-Score:  {f1:.3f}")
-    print(f"AUC-ROC:   {auc:.3f}")
+    print(f"  Accuracy: {acc:.3f} | Precision: {prec:.3f} | Recall: {rec:.3f} | F1: {f1:.3f} | AUC: {auc:.3f}\n")
 
-print("\n[5/6] Saving results")
+print("[5/6] Saving results")
 
 results_df = pd.DataFrame(results)
 results_df.to_csv('../results/metrics/model_comparison.csv', index=False)
-print(f" Saved metrics to: results/metrics/model_comparison.csv")
 
 for name, model in trained_models.items():
     filename = name.lower().replace(' ', '_')
     joblib.dump(model, f'../results/{filename}_model.pkl')
-print(f" Saved trained models to: results/")
 
 joblib.dump(scaler, '../results/scaler.pkl')
-print(f"Saved scaler val")
 
 with open('../results/feature_names.txt', 'w') as f:
     f.write('\n'.join(feature_cols))
-print(f" Saved feature names")
 
-print("\n[6/6] Training Summary:")
+print("Saved: models, scaler, feature names, metrics\n")
 
-print("MODEL COMPARISON RESULTS")
+print("[6/6] Training Summary\n")
 print(results_df.to_string(index=False))
 
-
 best_model = results_df.loc[results_df['F1-Score'].idxmax()]
-print(f"\nBest Model (by F1-Score): {best_model['Model']}")
-print(f" F1-Score: {best_model['F1-Score']:.3f}")
-print(f" Accuracy: {best_model['Accuracy']:.3f}")
-print(f" AUC-ROC:  {best_model['AUC-ROC']:.3f}")
-
-print("\nDONE!!!")
+print(f"\nBest Model: {best_model['Model']}")
+print(f"F1-Score: {best_model['F1-Score']:.3f} | Accuracy: {best_model['Accuracy']:.3f} | AUC: {best_model['AUC-ROC']:.3f}")
