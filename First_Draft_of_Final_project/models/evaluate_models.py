@@ -20,6 +20,30 @@ print("\n[1/4] Loading data and models")
 df = pd.read_csv('../../eda/merged_data_enhanced.csv')
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
+# Feature Engineering (same as train_classifiers.py)
+print("  Adding engineered features...")
+
+# Add 24-hour rolling price average
+df['price_rolling_mean_24h'] = df['price_mwh'].rolling(
+    window=24, center=True, min_periods=1
+).mean()
+
+# Add price-utilization interaction
+df['price_util_interaction'] = df['price_mwh'] * df['gpu_utilization_pct']
+
+# Add efficiency ratio
+df['jobs_per_kwh'] = df['active_jobs'] / (df['power_consumption_kw'] + 0.01)
+
+# Add cyclic time encoding
+df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
+df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
+
+# Add day of week cyclic encoding
+df['day_sin'] = np.sin(2 * np.pi * df['day_of_week'] / 7)
+df['day_cos'] = np.cos(2 * np.pi * df['day_of_week'] / 7)
+
+print("  ✓ Engineered features added")
+
 
 with open('../results/feature_names.txt', 'r') as f:
     feature_cols = [line.strip() for line in f.readlines()]

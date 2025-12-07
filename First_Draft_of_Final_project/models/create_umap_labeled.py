@@ -96,10 +96,7 @@ for i in range(7):
     
     cluster_labels.append((label, color))
 
-# ============================================================================
 # Create visualization with cluster labels
-# ============================================================================
-
 fig, ax = plt.subplots(figsize=(16, 10))
 
 # Plot points
@@ -136,8 +133,7 @@ for i, (center, (label, color)) in enumerate(zip(cluster_centers, cluster_labels
 
 ax.set_xlabel('UMAP Dimension 1', fontsize=14, fontweight='bold')
 ax.set_ylabel('UMAP Dimension 2', fontsize=14, fontweight='bold')
-ax.set_title('UMAP Projection: 7 Distinct Hour-Type Clusters\n'
-             'Green = Efficient | Red = Inefficient | Orange = Mixed', 
+ax.set_title('UMAP Projection: 7 Distinct Hour-Type Clusters\nGreen = Efficient | Red = Inefficient | Orange = Mixed', 
              fontsize=16, fontweight='bold', pad=20)
 ax.legend(fontsize=13, loc='upper right', framealpha=0.95)
 ax.grid(True, alpha=0.2)
@@ -147,13 +143,9 @@ plt.savefig('../results/plots/umap_with_cluster_labels.png', dpi=300, bbox_inche
 print("✅ Saved: results/plots/umap_with_cluster_labels.png")
 plt.close()
 
-# ============================================================================
-# Also create a CLEANER version without efficiency percentages
-# ============================================================================
-
+# Also create a CLEANER version
 fig, ax = plt.subplots(figsize=(16, 10))
 
-# Plot points
 ax.scatter(inefficient[:, 0], inefficient[:, 1], 
           c='#e74c3c', alpha=0.3, s=25, 
           label='Inefficient Hours', edgecolors='none')
@@ -194,8 +186,7 @@ for i, (center, (label, color)) in enumerate(zip(cluster_centers, simple_labels[
 
 ax.set_xlabel('UMAP Dimension 1', fontsize=14, fontweight='bold')
 ax.set_ylabel('UMAP Dimension 2', fontsize=14, fontweight='bold')
-ax.set_title('UMAP: Multiple Distinct Clusters Prove Pattern Complexity\n'
-             'ML Learns Boundaries That Simple "Run at Night" Rules Cannot', 
+ax.set_title('UMAP: Multiple Distinct Clusters Prove Pattern Complexity\nML Learns Boundaries That Simple "Run at Night" Rules Cannot', 
              fontsize=16, fontweight='bold', pad=20)
 ax.legend(fontsize=13, loc='upper right', framealpha=0.95)
 ax.grid(True, alpha=0.2)

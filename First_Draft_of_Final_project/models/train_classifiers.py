@@ -31,23 +31,63 @@ df['timestamp'] = pd.to_datetime(df['timestamp'])
 print(f"Loaded {len(df)} records")
 print(f"Date range: {df['timestamp'].min()} to {df['timestamp'].max()}")
 
-print("\n[2/6] Preparing features and target")
+print("\n[2/6] Feature Engineering")
 
+# Add 24-hour rolling price average
+df['price_rolling_mean_24h'] = df['price_mwh'].rolling(
+    window=24, center=True, min_periods=1
+).mean()
+
+# Add price-utilization interaction (key insight from analysis!)
+df['price_util_interaction'] = df['price_mwh'] * df['gpu_utilization_pct']
+
+# Add efficiency ratio
+df['jobs_per_kwh'] = df['active_jobs'] / (df['power_consumption_kw'] + 0.01)
+
+# Add cyclic time encoding (hour 0 and 23 are close!)
+df['hour_sin'] = np.sin(2 * np.pi * df['hour'] / 24)
+df['hour_cos'] = np.cos(2 * np.pi * df['hour'] / 24)
+
+# Add day of week cyclic encoding
+df['day_sin'] = np.sin(2 * np.pi * df['day_of_week'] / 7)
+df['day_cos'] = np.cos(2 * np.pi * df['day_of_week'] / 7)
+
+print(f"✓ Created 7 engineered features")
+
+# Final feature set
 feature_cols = [
+    # Raw features
     'price_mwh',
     'gpu_utilization_pct',
     'active_jobs',
     'power_consumption_kw',
     'hourly_cost_usd',
+    
+    # Original engineered features
     'hour',
     'day_of_week',
     'is_weekend',
     'is_business_hours',
-    'is_peak_hours'
+    'is_peak_hours',
+    
+    # NEW engineered features
+    'price_rolling_mean_24h',
+    'price_util_interaction',
+    'jobs_per_kwh',
+    'hour_sin',
+    'hour_cos',
+    'day_sin',
+    'day_cos'
 ]
 
 X = df[feature_cols].copy()
 y = df['is_efficient_time'].copy()
+
+print(f"\nFeature engineering summary:")
+print(f"  Raw features: 5")
+print(f"  Basic temporal features: 5")
+print(f"  Advanced engineered features: 7")
+print(f"  Total features: {len(feature_cols)}")
 
 print(f"Features: {len(feature_cols)} columns")
 print(f"Target distribution:")
