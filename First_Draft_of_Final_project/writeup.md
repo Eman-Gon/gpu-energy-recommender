@@ -276,7 +276,3 @@ Feature importance analysis reveals that economic factors (hourly cost, price, j
 The convergence of multiple algorithms (linear, tree-based, ensemble, boosting) to >96% accuracy indicates robust predictive signals driven by complex interactions between electricity markets, workload patterns, and temporal dynamics. The systematic error analysis demonstrates that simple rules fail in predictable ways—missing 567 efficient daytime opportunities while incorrectly scheduling 207 expensive nighttime hours.
 
 For organizations operating large-scale GPU infrastructure, these results justify investment in ML-based scheduling systems. The combination of high accuracy (97.4%), large baseline improvements (+19-33 points), and statistical rigor (p < 0.001) demonstrates that machine learning can extract substantial operational value from data center scheduling optimization.
-
----
-
-**Code and Data Availability:** All analysis code, trained models, and visualizations are available at: https://github.com/[your-username]/gpu-energy-recommender
